@@ -8,7 +8,7 @@
     android:background="#F3F5F7"
     android:padding="16dp">
 
-    <!-- 顶部状态栏 -->
+    <!-- ================= 顶部状态栏 ================= -->
     <LinearLayout
         android:id="@+id/statusPanel"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/start_backgound_mini" />
+            android:src="@drawable/bluetooth_fail" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="BW-BO2 Monitor"
                 android:textColor="#333"
-                android:textSize="16sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -46,20 +46,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Disconnected"
-                android:textColor="#666"
-                android:textSize="14sp" />
+                android:textColor="#FF5252"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/btnScan"
-            android:contentDescription="@string/search"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
             android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/search_devices"
+            android:importantForAccessibility="yes"
+            android:scaleType="centerInside"
             android:src="@drawable/search" />
-
     </LinearLayout>
 
+    <!-- ================= 核心数据仪表盘 ================= -->
     <androidx.cardview.widget.CardView
         android:id="@+id/dashboardCard"
         android:layout_width="match_parent"
@@ -71,167 +74,299 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Blood Oxygen Concentration -->
+            <!-- 第一行：SpO₂, Pulse, Fatigue -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:orientation="horizontal">
 
-                <TextView
-                    android:text="SpO₂"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#2196F3"
-                    android:textSize="14sp"
-                    android:layout_gravity="center"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/spo2Value"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:text="SpO₂"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#2196F3"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/spo2Value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="--%"
+                        android:textColor="#2196F3"
+                        android:textSize="28sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="--%"
-                    android:textColor="#2196F3"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="4dp"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Pulse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4CAF50"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/pulseValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="--bpm"
+                        android:textColor="#4CAF50"
+                        android:textSize="28sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Fatigue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FF9800"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/fatigueValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="--%"
+                        android:textColor="#FF9800"
+                        android:textSize="28sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Pulse -->
+            <!-- 第二行：血压、呼吸频率 -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:text="Pulse"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#4CAF50"
-                    android:textSize="14sp"
-                    android:layout_gravity="center"/>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/pulseValue"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:text="Blood Pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#9C27B0"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/bloodPressureValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="--/-- mmHg"
+                        android:textColor="#9C27B0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="--bpm"
-                    android:textColor="#4CAF50"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="4dp"/>
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <!-- Fatigue Index -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                    <TextView
+                        android:text="Respiration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#00BCD4"
+                        android:textSize="14sp"/>
 
-                <TextView
-                    android:text="Fatigue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FF9800"
-                    android:textSize="14sp"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:id="@+id/fatigueValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="--%"
-                    android:textColor="#FF9800"
-                    android:textSize="28sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="4dp"/>
+                    <TextView
+                        android:id="@+id/respirationValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="--/min"
+                        android:textColor="#00BCD4"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-<!--        &lt;!&ndash; Image Button Example &ndash;&gt;-->
-<!--        <ImageButton-->
-<!--            android:id="@+id/btnScan2"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="end|bottom"-->
-<!--            android:src="@drawable/ps_ic_selected"/>-->
-<!--            -->
     </androidx.cardview.widget.CardView>
 
-    <!-- 波形图表 -->
+    <!-- ================= 趋势图表 ================= -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/waveformCard"
+        android:id="@+id/trendCard"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_marginTop="16dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/dashboardCard"/>
+        app:layout_constraintTop_toBottomOf="@id/dashboardCard">
 
-<!--        <com.github.mikephil.charting.charts.LineChart-->
-<!--            android:id="@+id/waveformChart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
-<!--    </androidx.cardview.widget.CardView>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <!-- 频谱图表 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/trend"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/trend" />
+
+                <TextView
+                    android:text="Trend Data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+
+
+<!--            <com.github.mikephil.charting.charts.LineChart-->
+<!--                android:id="@+id/trendChart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="8dp"/>-->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 健康建议卡片 (简洁版) -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/spectrumCard"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/waveformCard"/>
-
-<!--        <com.github.mikephil.charting.charts.BarChart-->
-<!--            android:id="@+id/spectrumChart"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"/>-->
-<!--    </androidx.cardview.widget.CardView>-->
-
-    <!-- 健康建议 -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/adviceCard"
+        android:id="@+id/alertCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-85dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/spectrumCard">
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trendCard">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:text="Health Advice"
-                android:layout_height="wrap_content"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:textColor="#333"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/alert"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/alert" />
+                <!-- 健康建议标题 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Alert"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 建议内容 -->
+            <TextView
+                android:id="@+id/alertext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="Connecting to device..."
+                android:textColor="#666666"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- 健康建议卡片 (简洁版) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adviceCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alertCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/advice"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/advice" />
+                <!-- 健康建议标题 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Health Advice"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- 建议内容 -->
             <TextView
                 android:id="@+id/healthAdvice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Connecting to device..."
-                android:textColor="#666"
-                android:textSize="14sp"/>
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

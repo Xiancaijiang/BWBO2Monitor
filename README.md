@@ -3,7 +3,7 @@
 [![Android Version](https://img.shields.io/badge/Android-5.0%2B-brightgreen.svg)](https://developer.android.com/about/versions/lollipop)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="120" align="right">
+
 
 Android 蓝牙设备监控应用，支持设备搜索、连接状态管理和数据通信。适配 Android 5.0 (API 21) 及以上版本。
 

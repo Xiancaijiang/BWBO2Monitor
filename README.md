@@ -1,6 +1,6 @@
 # BWBO2Monitor - 蓝牙监控应用
 
-[![Android Version](https://developer.android.com/about/versions/lollipop)
+[Android Version](https://developer.android.com/about/versions/lollipop)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
